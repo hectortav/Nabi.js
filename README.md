@@ -24,8 +24,13 @@ A modern react boiletplate using Vite, Typescript, Tailwind, Wouter
 - [x] Footer
 - [x] Mobile navbar (Hamburger)
 - [x] Darkmode & Darkmode switch
+- [X] Code splitting
 - [ ] API
-- [ ] Code splitting
 - [ ] Authentication pages
 - [ ] Testing
 - [ ] CLI, code generator
+- [ ] Server-side rendering
+- [ ] Hybrid SSR - CSR
+- [ ] File system based route 
+- [ ] Npx create project
+
