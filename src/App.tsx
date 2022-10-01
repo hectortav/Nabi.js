@@ -11,6 +11,7 @@ const routes = Object.keys(pages).map((path) => {
         name,
         path: uri,
         component: (pages?.[path] as any)?.default,
+        // component: lazy(() => import(/* @vite-ignore */path)),
     };
 });
 

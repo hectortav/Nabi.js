@@ -5,13 +5,21 @@ import { Router } from "wouter";
 import staticLocationHook from "wouter/static-location";
 import App from "./App";
 
+let didError = false;
 export default function render(url: string) {
     const location = staticLocationHook(url, { record: true });
-    return ReactDOM.renderToString(
+    const stream = ReactDOM.renderToPipeableStream(
         <React.StrictMode>
             <Router hook={location}>
                 <App />
             </Router>
-        </React.StrictMode>
+        </React.StrictMode>,
+        {
+            onError(err) {
+                didError = true;
+                console.error(err);
+            },
+        }
     );
+    return { stream, didError };
 }

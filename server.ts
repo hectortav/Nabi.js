@@ -1,11 +1,31 @@
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import express from "express";
+import { readFileSync } from "fs";
+import * as path from "path";
+import { Writable } from "stream";
+import { fileURLToPath } from "url";
+import express, { Request, Response } from "express";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD;
+
+class HtmlWritable extends Writable {
+    chunks: Buffer[] = [];
+    html = "";
+
+    getHtml() {
+        return this.html;
+    }
+
+    _write(chunk: Buffer, encoding: string, callback: Function) {
+        this.chunks.push(chunk);
+        callback();
+    }
+
+    _final(callback: Function) {
+        this.html = Buffer.concat(this.chunks).toString();
+        callback();
+    }
+}
 
 export async function createServer(
     root = process.cwd(),
@@ -15,7 +35,7 @@ export async function createServer(
     const resolve = (p: string) => path.resolve(__dirname, p);
 
     const indexProd = isProd
-        ? fs.readFileSync(resolve("dist/client/index.html"), "utf-8")
+        ? readFileSync(resolve("client/index.html"), "utf-8")
         : "";
 
     const app = express();
@@ -46,40 +66,53 @@ export async function createServer(
     } else {
         app.use((await import("compression")).default());
         app.use(
-            (await import("serve-static")).default(resolve("dist/client"), {
+            (await import("serve-static")).default(resolve("client"), {
                 index: false,
             })
         );
     }
 
-    app.use("*", async (req, res) => {
+    app.use("*", async (req: Request, res: Response) => {
         try {
             const url = req.originalUrl;
 
-            let template, render;
+            let template: any, render;
             if (!isProd) {
                 // always read fresh template in dev
-                template = fs.readFileSync(resolve("index.html"), "utf-8");
+                template = readFileSync(resolve("index.html"), "utf-8");
                 template = await vite.transformIndexHtml(url, template);
                 render = (await vite.ssrLoadModule("/src/entry-server.tsx"))
                     .default;
             } else {
                 template = indexProd;
                 // @ts-ignore
-                render = (await import("./dist/server/entry-server.js"))
+                render = (await import(resolve("server/entry-server.js")))
                     .default;
             }
 
             const context: Record<string, any> = {};
-            const appHtml = render(url);
+            const { stream, didError } = render(url, res);
 
             if (context.url) {
-                // Somewhere a `<Redirect>` was rendered
                 return res.redirect(301, context.url);
             }
 
-            const html = template.replace(`<!--ssr-outlet-->`, appHtml);
-            res.status(200).set({ "Content-Type": "text/html" }).end(html);
+            res.status(didError ? 500 : 200).set({
+                "Content-Type": "text/html",
+            });
+            const htmlWritable = new HtmlWritable();
+            if (didError === false) {
+                stream.pipe(htmlWritable);
+                htmlWritable.on("finish", () => {
+                    const appHtml = htmlWritable.getHtml();
+                    const html = template.replace(`<!--ssr-outlet-->`, appHtml);
+                    res.send(html);
+                });
+            } else {
+                res.send(
+                    '<!doctype html><p>Loading...</p><script src="/src/index.tsx"></script>'
+                );
+            }
         } catch (e) {
             !isProd && vite.ssrFixStacktrace(e);
             console.log((e as Error).stack);
