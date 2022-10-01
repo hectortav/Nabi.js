@@ -1,4 +1,5 @@
 # React TypeScript Boilerplate
+
 A modern react boiletplate using Vite, Typescript, Tailwind, Wouter
 
 <div style="display:flex; flex-direction:row;">
@@ -10,27 +11,26 @@ A modern react boiletplate using Vite, Typescript, Tailwind, Wouter
 
 ### Tecnologies used:
 
-- React: A front-end JavaScript library for building user interfaces based on UI components.
-- TypeScript: A strict syntactical superset of JavaScript and adds optional static typing to the language.
-- Vite: A rapid development tool for modern web projects.
-- Yarn: An alternative to the npm package manager.
-- Tailwind: A utility-first CSS framework.
-- Wouter: A tiny router for modern React.
+-   React: A front-end JavaScript library for building user interfaces based on UI components.
+-   TypeScript: A strict syntactical superset of JavaScript and adds optional static typing to the language.
+-   Vite: A rapid development tool for modern web projects.
+-   Yarn: An alternative to the npm package manager.
+-   Tailwind: A utility-first CSS framework.
+-   Wouter: A tiny router for modern React.
 
 ### Features included:
 
-- [x] Common page Layout
-- [x] Navbar
-- [x] Footer
-- [x] Mobile navbar (Hamburger)
-- [x] Darkmode & Darkmode switch
-- [X] Code splitting
-- [ ] API
-- [ ] Authentication pages
-- [ ] Testing
-- [ ] CLI, code generator
-- [ ] Server-side rendering
-- [ ] Hybrid SSR - CSR
-- [ ] File system based route 
-- [ ] Npx create project
-
+-   [x] Common page Layout
+-   [x] Navbar
+-   [x] Footer
+-   [x] Mobile navbar (Hamburger)
+-   [x] Darkmode & Darkmode switch
+-   [x] Code splitting
+-   [ ] API
+-   [ ] Authentication pages
+-   [ ] Testing
+-   [ ] CLI, code generator
+-   [x] Server-side rendering
+-   [ ] Hybrid SSR - CSR
+-   [x] File system based route
+-   [ ] Npx create project

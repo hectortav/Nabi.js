@@ -8,15 +8,17 @@ import {
     useMemo,
 } from "react";
 
-window.matchMedia =
-    window.matchMedia ||
-    function a() {
-        return {
-            matches: false,
-            addListener() {},
-            removeListener() {},
+if (!import.meta.env.SSR) {
+    window.matchMedia =
+        window?.matchMedia ||
+        function a() {
+            return {
+                matches: false,
+                addListener() {},
+                removeListener() {},
+            };
         };
-    };
+}
 
 const DarkModeContext = createContext({
     darkMode: false,

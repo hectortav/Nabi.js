@@ -1,15 +1,30 @@
 import { Route } from "wouter";
-import { Home, User } from "./pages";
+import "./index.css";
 import { DarkModeWrapper, Layout } from "./components";
+const pages = import.meta.glob("./pages/**/*.tsx", { eager: true });
+
+const routes = Object.keys(pages).map((path) => {
+    const name = path?.match(/\.\/pages\/(.*)\.tsx$/)?.[1];
+    let uri = `/${name?.toLowerCase().replace(/\/?index$/, "")}`;
+    uri = uri.replace(/\[/g, ":").replace(/]/g, "");
+    return {
+        name,
+        path: uri,
+        component: (pages?.[path] as any)?.default,
+    };
+});
 
 const App = () => {
     return (
         <DarkModeWrapper>
             <Layout>
-                <Route path="/">{(params) => <Home {...params} />}</Route>
-                <Route path="/users/:username">
-                    {(params) => <User {...params} />}
-                </Route>
+                {routes.map(({ path, component: RouteComp }) => {
+                    return (
+                        <Route key={path} path={path}>
+                            {(params) => <RouteComp {...params} />}
+                        </Route>
+                    );
+                })}
             </Layout>
         </DarkModeWrapper>
     );
