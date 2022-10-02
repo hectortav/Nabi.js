@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { render } from "../utils";
 
 const Home = () => {
     return (
@@ -24,4 +25,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default render(Home, "ssr");

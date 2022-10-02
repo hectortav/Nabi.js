@@ -3,6 +3,8 @@ import * as path from "path";
 import { Writable } from "stream";
 import { fileURLToPath } from "url";
 import express, { Request, Response } from "express";
+// @ts-ignore
+import api from "./src/api/index.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -72,6 +74,8 @@ export async function createServer(
         );
     }
 
+    app.use("/api", api);
+
     app.use("*", async (req: Request, res: Response) => {
         try {
             const url = req.originalUrl;
@@ -125,8 +129,8 @@ export async function createServer(
 
 if (!isTest) {
     createServer().then(({ app }) =>
-        app.listen(5173, () => {
-            console.log("http://localhost:5173");
+        app.listen(3000, () => {
+            console.log(`http://localhost:3000 🚀`);
         })
     );
 }

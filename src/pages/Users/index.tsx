@@ -1,5 +1,7 @@
-const User = () => {
+import { render } from "../../utils";
+
+const Users = () => {
     return <div>Users page</div>;
 };
 
-export default User;
+export default render(Users, "ssr");
