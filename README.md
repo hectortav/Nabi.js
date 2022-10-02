@@ -1,6 +1,6 @@
-# React TypeScript Boilerplate
+# Nabi.js
 
-A modern react boiletplate using Vite, Typescript, Tailwind, Wouter
+A modern react framework/boiletplate using Vite, Typescript, Tailwind, Wouter
 
 <div style="display:flex; flex-direction:row;">
   <img src="/public/assets/react.png" alt="react" width="25px" height="25px"/>  
