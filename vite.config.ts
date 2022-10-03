@@ -5,7 +5,6 @@ import viteTsconfigPaths from "vite-tsconfig-paths";
 export default defineConfig({
     plugins: [react(), viteTsconfigPaths(), splitVendorChunkPlugin()],
     build: {
-        // minify: false,
         sourcemap: false,
     },
 });

@@ -18,7 +18,7 @@ A modern react framework/boiletplate using Vite, Typescript, Tailwind, Wouter
 -   Tailwind: A utility-first CSS framework.
 -   Wouter: A tiny router for modern React.
 
-### Features included:
+### Roadmap:
 
 -   [x] Common page Layout
 -   [x] Navbar
@@ -26,12 +26,80 @@ A modern react framework/boiletplate using Vite, Typescript, Tailwind, Wouter
 -   [x] Mobile navbar (Hamburger)
 -   [x] Darkmode & Darkmode switch
 -   [ ] Code splitting
--   [x] API
--   [ ] Authentication pages
 -   [ ] Testing
 -   [ ] CLI, code generator
 -   [x] Server-side rendering
 -   [x] Hybrid SSR - CSR
 -   [ ] Static site generation
--   [x] File system based route
+-   [x] File system based routes
+-   [x] API
+-   [ ] File system based routes for API
 -   [ ] Npx create project
+-   [ ] ORM and Database connection
+-   [ ] Authentication
+-   [ ] Server side for bots
+
+### Features:
+
+#### Hybrid rendering
+
+Why choose between Client Side Rendering, Server Side Rendering or Static Site Generation for your project. Select what fits the needs of each of your pages or components by the addition of a single line of code.
+
+```typescript
+const PageSSR = () => <div>This page is rendered on the server</div>;
+export default render(PageSSR, "ssr");
+```
+
+```typescript
+const PageCSR = () => <div>This page is rendered on the client</div>;
+export default render(PageCSR, "csr");
+```
+
+_Static site generation coming soon_
+
+#### File system based routes
+
+Define website routes from the file system. Create React components under the `pages/` directory, and a route according to the filename will be generated automatically. For example, a component inside the file `pages/users.tsx` will be accessible at `/users`.
+
+```typescript
+const Users = () => {
+    return (
+        <div>
+            <ul>
+                <li>Jessie</li>
+                <li>James</li>
+            </ul>
+        </div>
+    );
+};
+export default Users;
+```
+
+Dynamic routes are also supported by surrounding the variable with square brackets. For example, a component inside the file `pages/users/[name].tsx` will be accessible at `/users/Jessie`.
+
+```typescript
+interface UsersProps {
+    name: string;
+}
+const User = ({ name }: UsersProps) => {
+    return <div>{`Hello, ${name}!`}</div>;
+};
+export default User;
+```
+
+#### API
+
+Create and serve API routes with Node.js and Express inside your app under the `api/` directory.
+
+#### Styling
+
+Nabi.js comes packed with [tailwindcss](https://tailwindcss.com/), so you can start building faster.
+
+#### Boilerplate
+
+Nabi.js comes with the necessary boilerplate, so you can focus on building your product and not the same components again and again.
+The boilerplate currently includes:
+
+-   A responsive Navigation bar
+-   A reusable Footer
+-   Customizable Dark mode

@@ -3,8 +3,7 @@ import * as path from "path";
 import { Writable } from "stream";
 import { fileURLToPath } from "url";
 import express, { Request, Response } from "express";
-// @ts-ignore
-import api from "./src/api/index.ts";
+import api from "./src/api/index.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -73,7 +72,6 @@ export async function createServer(
             })
         );
     }
-
     app.use("/api", api);
 
     app.use("*", async (req: Request, res: Response) => {

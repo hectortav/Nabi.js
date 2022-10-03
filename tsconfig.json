@@ -15,8 +15,9 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
-        "jsx": "react-jsx"
+        "jsx": "react-jsx",
+        "declarationDir": "types"
     },
-    "include": ["vite.config.ts", "src", "src/../server.ts"],
+    "include": ["vite.config.ts", "src", "server.ts"],
     "exclude": ["node_modules", "**/node_modules/*", "*.config.js"]
 }
