@@ -38,6 +38,8 @@ A modern react framework/boiletplate using Vite, Typescript, Tailwind, Wouter
 -   [ ] ORM and Database connection
 -   [ ] Authentication
 -   [ ] Server side for bots
+-   [ ] Server side cache
+-   [ ] 404 page
 
 ### Features:
 

@@ -9,25 +9,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD;
 
-class HtmlWritable extends Writable {
-    chunks: Buffer[] = [];
-    html = "";
-
-    getHtml() {
-        return this.html;
-    }
-
-    _write(chunk: Buffer, encoding: string, callback: Function) {
-        this.chunks.push(chunk);
-        callback();
-    }
-
-    _final(callback: Function) {
-        this.html = Buffer.concat(this.chunks).toString();
-        callback();
-    }
-}
-
 export async function createServer(
     root = process.cwd(),
     isProd = process.env.NODE_ENV === "production",
@@ -74,6 +55,8 @@ export async function createServer(
     }
     app.use("/api", api);
 
+    // app.use("/about", (_, res) => {res.status(200).set({"Content-Type": "text/html",}).sendFile(resolve("dist/about.html"));});
+
     app.use("*", async (req: Request, res: Response) => {
         try {
             const url = req.originalUrl;
@@ -93,28 +76,17 @@ export async function createServer(
             }
 
             const context: Record<string, any> = {};
-            const { stream, didError } = render(url, res);
-
+            const appHtml = render(url);
             if (context.url) {
                 return res.redirect(301, context.url);
             }
 
-            res.status(didError ? 500 : 200).set({
+            res.status(200).set({
                 "Content-Type": "text/html",
             });
-            const htmlWritable = new HtmlWritable();
-            if (didError === false) {
-                stream.pipe(htmlWritable);
-                htmlWritable.on("finish", () => {
-                    const appHtml = htmlWritable.getHtml();
-                    const html = template.replace(`<!--ssr-outlet-->`, appHtml);
-                    res.send(html);
-                });
-            } else {
-                res.send(
-                    '<!doctype html><p>Loading...</p><script src="/src/index.tsx"></script>'
-                );
-            }
+
+            const html = template.replace(`<!--ssr-outlet-->`, appHtml);
+            res.send(html);
         } catch (e) {
             !isProd && vite.ssrFixStacktrace(e);
             console.log((e as Error).stack);

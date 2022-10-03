@@ -4,10 +4,14 @@ import { render } from "../utils";
 const Home = () => {
     return (
         <div>
-            <h1 className="text-3xl font-bold underline">Home</h1>
-            <Link href="/users/JohnDoe">
-                <a className="link">Profile</a>
-            </Link>
+            <div className="flex items-center mb-4">
+                <h1 className="text-3xl font-bold underline">Home</h1>
+                <div className="ml-auto">
+                    <Link href="/users/JohnDoe">
+                        <a className="link">View users</a>
+                    </Link>
+                </div>
+            </div>
             <article>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
                 mollitia, molestiae quas vel sint commodi repudiandae
