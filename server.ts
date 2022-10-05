@@ -1,6 +1,5 @@
 import { readFileSync } from "fs";
 import * as path from "path";
-import { Writable } from "stream";
 import { fileURLToPath } from "url";
 import express, { Request, Response } from "express";
 import api from "./src/api/index.js";
@@ -55,7 +54,11 @@ export async function createServer(
     }
     app.use("/api", api);
 
-    // app.use("/about", (_, res) => {res.status(200).set({"Content-Type": "text/html",}).sendFile(resolve("dist/about.html"));});
+    app.use("/about", (_, res) => {
+        res.status(200)
+            .set({ "Content-Type": "text/html" })
+            .sendFile(resolve("dist/client/about.html"));
+    });
 
     app.use("*", async (req: Request, res: Response) => {
         try {

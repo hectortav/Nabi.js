@@ -48,13 +48,22 @@ A modern react framework/boiletplate using Vite, Typescript, Tailwind, Wouter
 Why choose between Client Side Rendering, Server Side Rendering or Static Site Generation for your project. Select what fits the needs of each of your pages or components by the addition of a single line of code.
 
 ```typescript
-const PageSSR = () => <div>This page is rendered on the server</div>;
-export default render(PageSSR, "ssr");
+const PageSSR = () => (
+    <Render render="ssr">
+        <div>This page is rendered on the server</div>
+    </Render>
+);
+
+export default PageSSR;
 ```
 
 ```typescript
-const PageCSR = () => <div>This page is rendered on the client</div>;
-export default render(PageCSR, "csr");
+const PageCSR = () => (
+    <Render render="csr">
+        <div>This page is rendered on the client</div>
+    </Render>
+);
+export default PageCSR;
 ```
 
 _Static site generation coming soon_

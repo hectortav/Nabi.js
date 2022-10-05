@@ -26,4 +26,4 @@ dist-ssr
 server.js
 tsconfig.tsbuildinfo
 vite.config.ts.timestamp*
-static-generator.ts
+

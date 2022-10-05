@@ -1,1 +1,1 @@
-export { default as render } from "./render";
+export { default as Render } from "./Render";

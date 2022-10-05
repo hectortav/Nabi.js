@@ -6,16 +6,12 @@ const pages = import.meta.glob("./pages/**/*.tsx", { eager: true });
 
 const routes = Object.keys(pages).map((path) => {
     const name = path?.match(/\.\/pages\/(.*)\.tsx$/)?.[1];
-    let component;
     let uri = `/${name?.toLowerCase().replace(/\/?index$/, "")}`;
     if (name?.endsWith(".static")) {
         uri = uri.replace(/\.static$/, "");
     }
     uri = uri.replace(/\[/g, ":").replace(/]/g, "");
-    component = (pages?.[path] as any)?.default;
-    // if path ends with ".static"
-    // check if index html has been generated and use it
-    // else ssr
+    const component = (pages?.[path] as any)?.default;
 
     return {
         name,
